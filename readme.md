@@ -1,2 +1,4 @@
-# new repo
-markdown is a easy way to format text in these files!
+hii i,m sadiee
+<br>
+this is me learning github
+
