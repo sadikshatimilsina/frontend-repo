@@ -1,5 +1,7 @@
+let count = 0;
 let boxes = document.querySelectorAll(".box");
 let resetBtn = document.querySelector("#reset-btn");
+let newBtn = document.querySelector("#new-btn");
 let msgcontainer = document.querySelector(".msg-container");
 let msg = document.querySelector("#msg");
 
@@ -18,9 +20,9 @@ const winpatterns = [
 
 const resetGame = () =>{
     turnO = true;
+    count = 0;
     enableBoxes();
     msgcontainer.classList.add("hide");
-    console.log("Reset clicked");
 
 };
 
@@ -35,8 +37,13 @@ boxes.forEach((box) =>{
             turnO = true;
         }
         box.disabled = true;
+        count++;
 
-        checkWinner();
+        let isWinner = checkWinner();
+
+        if(count === 9 && !isWinner){
+            showDraw();
+        }
     });
 });
 
@@ -53,6 +60,13 @@ const enableBoxes = () =>{
     }
 };
 
+const showDraw = () => {
+    msg.innerText = "Match Draw!";
+    msgcontainer.classList.remove("hide");
+    disableBoxes();
+};
+
+
 const showWinner = (winner) => {
     msg.innerText =`congratulations, winner is ${winner}`;
     msgcontainer.classList.remove("hide");
@@ -65,14 +79,15 @@ const checkWinner = () =>{
         let pos2Val = boxes[pattern[1]].innerText;
         let pos3Val = boxes[pattern[2]].innerText;
 
-        if(pos1Val != "" && pos2Val !="" &&pos3Val !=""){
-            if(pos1Val === pos2Val && pos2Val === pos3Val){
-                console.log("winner", pos1Val);
-                showWinner(pos1Val);
+
+            if(pos1Val!=="" && pos1Val === pos2Val && pos2Val === pos3Val){
+               showWinner(pos1Val);
+                return true;
             }
-        }
 
     }
+    return false;
 };
 
 resetBtn.addEventListener("click", resetGame);
+newBtn.addEventListener("click", resetGame);
